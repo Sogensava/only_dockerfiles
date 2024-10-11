@@ -159,6 +159,7 @@ RUN cd ./snapshot
 WORKDIR /home/vot_ws/SiamDW/snapshot
 RUN gdown 1tBllNtv-90Ih2EP_lnRCBzxnZeFPRnPx
 WORKDIR /home/vot_ws/SiamDW
-RUN cd ..
 
-COPY ./trackers.ini /home/vot_ws/trackers.ini
+WORKDIR /home/vot_ws/SiamDW
+RUN cd /home/vot_ws/SiamDW
+COPY /home/vot_ws/SiamDW/trackers.ini /home/vot_ws/trackers.ini
