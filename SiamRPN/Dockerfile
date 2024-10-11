@@ -163,3 +163,4 @@ WORKDIR /home/vot_ws/SiamDW
 WORKDIR /home/vot_ws/SiamDW
 RUN cd /home/vot_ws/SiamDW
 RUN cp /home/vot_ws/SiamDW/trackers.ini /home/vot_ws/trackers.ini
+WORKDIR /home/vot_ws
