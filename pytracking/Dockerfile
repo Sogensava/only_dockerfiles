@@ -161,7 +161,7 @@ RUN git clone https://github.com/Sogensava/pytracking.git
 RUN cd ./pytracking
 WORKDIR /home/pytracking
 
-RUN cp /home/pytracking/trackers.ini /home/trackers.ini
+RUN cp /home/pytracking/trackers.ini /home/vot_ws/trackers.ini
 
 WORKDIR /home/pytracking
 RUN cd /home/pytracking
