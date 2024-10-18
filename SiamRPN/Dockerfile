@@ -159,6 +159,5 @@ RUN mkdir ./snapshot
 RUN cd ./snapshot 
 RUN gdown 1tBllNtv-90Ih2EP_lnRCBzxnZeFPRnPx
 WORKDIR /home/SiamDW
-RUN cd /home/SiamDW
 RUN cp /home/SiamDW/trackers.ini /home/vot_ws/trackers.ini
 WORKDIR /home

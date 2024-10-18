@@ -191,7 +191,7 @@ RUN python -c "from ltr.admin.environment import create_default_local_file; crea
 RUN git submodule update
 
 RUN rm /home/pytracking/ltr/external/PreciseRoIPooling/pytorch/prroi_pool/src/prroi_pooling_gpu.c
-RUN cp /home/pytracking/pytracking/external/prroi_pooling_gpu.c /home/vot_ws/pytracking/ltr/external/PreciseRoIPooling/pytorch/prroi_pool/src/
+RUN cp /home/pytracking/pytracking/external/prroi_pooling_gpu.c /home/pytracking/ltr/external/PreciseRoIPooling/pytorch/prroi_pool/src/
 
 RUN cd /home
 WORKDIR /home
