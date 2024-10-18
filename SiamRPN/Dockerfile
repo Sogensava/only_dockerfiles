@@ -152,15 +152,13 @@ WORKDIR /home/toolkit
 RUN cd /home/toolkit && python /home/toolkit/setup.py install
 WORKDIR /home/vot_ws
 RUN vot initialize vot2022/shorttermbox --workspace .
+WORKDIR /home
 RUN git clone https://github.com/Sogensava/SiamDW.git
 RUN cd ./SiamDW
 RUN mkdir ./snapshot
 RUN cd ./snapshot 
-WORKDIR /home/vot_ws/SiamDW/snapshot
 RUN gdown 1tBllNtv-90Ih2EP_lnRCBzxnZeFPRnPx
-WORKDIR /home/vot_ws/SiamDW
-
-WORKDIR /home/vot_ws/SiamDW
-RUN cd /home/vot_ws/SiamDW
-RUN cp /home/vot_ws/SiamDW/trackers.ini /home/vot_ws/trackers.ini
-WORKDIR /home/vot_ws
+WORKDIR /home/SiamDW
+RUN cd /home/SiamDW
+RUN cp /home/SiamDW/trackers.ini /home/vot_ws/trackers.ini
+WORKDIR /home
