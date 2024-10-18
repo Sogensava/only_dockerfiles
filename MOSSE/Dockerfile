@@ -146,6 +146,6 @@ WORKDIR /home/vot_ws
 RUN vot initialize vot2022/shorttermbox --workspace .
 WORKDIR /home
 RUN git clone https://github.com/Sogensava/mosse.git
-RUN cp /home/mosse/trackers.ini /home/trackers.ini
+RUN cp /home/mosse/trackers.ini /home/vot_ws/trackers.ini
 
 RUN pip install opencv-contrib-python==4.5.1.48
