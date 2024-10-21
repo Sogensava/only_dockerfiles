@@ -137,15 +137,85 @@ RUN pip install PyYAML && \
 # RUN conda install --file ./docker_requirements.txt
 
 # create workspace 
-RUN mkdir /home/vot_ws
 
-RUN git clone https://github.com/votchallenge/toolkit /home/toolkit
-WORKDIR /home/toolkit
-RUN cd /home/toolkit && python /home/toolkit/setup.py install
-WORKDIR /home/vot_ws
-RUN vot initialize vot2022/shorttermbox --workspace .
+
+WORKDIR /home/
+
+RUN echo 'Etc/UTC' > /etc/timezone && \
+    # ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
+    apt-get update && \
+    apt-get install -q -y --no-install-recommends tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# GStreamer 
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libx264-dev \
+    libjpeg-dev \
+    libgstreamer1.0-dev \
+    libgstreamer-plugins-base1.0-dev \
+    libgstreamer-plugins-bad1.0-dev \
+    gstreamer1.0-plugins-good \
+    gstreamer1.0-plugins-bad \
+    gstreamer1.0-plugins-ugly \
+    gstreamer1.0-tools \
+    gstreamer1.0-gl \
+    gstreamer1.0-gtk3 \
+    gstreamer1.0-libav \
+    xdg-utils \
+    gedit \
+    && rm -rf /var/lib/apt/lists/*
+
+#VOT
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    python3 \
+    python3-pip \
+    python3-setuptools \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --recursive https://github.com/votchallenge/toolkit.git && \
+    cd toolkit && \
+    pip install -e .
+
+RUN git clone https://github.com/votchallenge/integration.git
+
+#Copy 
+COPY codes /home/codes
+COPY main.py /home/main.py
+COPY dockerfiles/mystack.yaml /home/toolkit/vot/stack/mystack.yaml
+COPY dockerfiles/__init__.py /home/toolkit/vot/dataset/__init__.py
+
+#Create VOT WORKSPACE
+RUN vot initialize mystack --workspace vot_ws
+
+#TRACKER 
 WORKDIR /home
 RUN git clone https://github.com/Sogensava/mosse.git
 RUN cp /home/mosse/trackers.ini /home/vot_ws/trackers.ini
+
+#Copy Trackers.ini
+#COPY ../../../dockerfiles/trackers.ini /home/vot_ws/trackers.ini
+# setup entrypoint
+CMD ["bash"]
+
+
+
+#######
+# RUN mkdir /home/vot_ws
+# RUN git clone https://github.com/votchallenge/toolkit /home/toolkit
+# WORKDIR /home/toolkit
+# RUN cd /home/toolkit && python /home/toolkit/setup.py install
+# WORKDIR /home/vot_ws
+# RUN vot initialize vot2022/shorttermbox --workspace .
+# RUN git clone https://github.com/foolwood/DCFNet_pytorch.git
+# RUN cd DCFNet_pytorch/track && wget https://raw.githubusercontent.com/votchallenge/integration/refs/heads/master/python/vot.py
+# COPY ./run_vot.py DCFNet_pytorch/track
+# COPY ./trackers.ini trackers.ini
+# COPY ./DCFNet.py DCFNet_pytorch/track/DCFNet.py
+# COPY ./net.py DCFNet_pytorch/track/net.py
+# COPY ./util.py DCFNet_pytorch/track/util.py
 
 RUN pip install opencv-contrib-python==4.5.1.48
